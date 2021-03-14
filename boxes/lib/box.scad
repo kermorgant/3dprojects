@@ -1,7 +1,4 @@
-use <../mcad/boxes.scad>;
-
-
-$fn=100;
+use <../../mcad/boxes.scad>;
 
 module grip() {
   translate([-5,0,0])
@@ -13,15 +10,16 @@ module grip() {
 }
 
 module box(width, length, height) {
+  walls = 3;
   difference() {
     roundedCube([width, length, height], 2, true, true);
-    translate([0,0,2])roundedCube([width-2, length-2, height-2], 2, true, true);
+    translate([0,0,2])roundedCube([width-walls, length-walls, height-walls], 2, true, true);
   }
 
   translate([0,-length/2,height/2]) grip();
 }
 
-module box11(with, height) {
+module box11(width, height) {
   box(width, width, height);
 }
 
@@ -32,10 +30,3 @@ module box12(width, height) {
 module box14(width, height) {
   box(width, 4*width, height);
 }
-
-
-width = 20;
-length = width * 4;
-height = 30;
-
-box14(width, height);
