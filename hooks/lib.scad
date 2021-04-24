@@ -33,16 +33,25 @@ module flat_hanger(hookRadius, width, h, gape) {
 }
 
 module round_hanger(hookRadius, width, h) {
-  difference() {
-    difference() {
-      translate([(hookRadius-width/2),0,0]) cylinder(r=hookRadius, h=h);
-      translate([(hookRadius-width/2),0,0]) cylinder(r=hookRadius-width, h=2*h+2, center=true);
-    }
+  translate([width/2, 0, 0])
+    rotate([0, 0, -90]) round1_4(hookRadius, width, h);
 
-    translate([0, 0, -1]) cube([2*hookRadius, hookRadius+2, h+2], center=false);
-  }
+  translate([hookRadius, width/2-hookRadius, 0])
+    rotate([0, 0, 0]) round1_4(hookRadius, width, h);
 
-
-  translate([2*hookRadius-width, 0, 0])
+  translate([2*hookRadius-width/2, 0, 0])
     cylinder(d=width, h=h, center=false);
+
+  /* difference() { */
+  /*   difference() { */
+  /*     translate([(hookRadius-width/2),0,0]) cylinder(r=hookRadius, h=h); */
+  /*     translate([(hookRadius-width/2),0,0]) cylinder(r=hookRadius-width, h=2*h+2, center=true); */
+  /*   } */
+
+  /*   translate([0, 0, -1]) cube([2*hookRadius, hookRadius+2, h+2], center=false); */
+  /* } */
+
+
+  /* translate([2*hookRadius-width, 0, 0]) */
+  /*   cylinder(d=width, h=h, center=false); */
 }
