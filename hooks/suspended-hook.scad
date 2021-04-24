@@ -14,7 +14,7 @@ module suspended_hook(top, gape, hookRadius, width, h){
   backSide = 30;
   translate([0, -backSide/2, h/2]) cube([width,backSide,h], center=true);
 
-  translate([0, -backSide, 0])
+  translate([-width/2, -backSide, 0])
     flat_hanger(hookRadius, width, h, gape);
 }
 
@@ -26,6 +26,5 @@ hookRadius = 8;
 difference() {
   suspended_hook(top, gape, hookRadius, width, h);
   translate([(top)/2+1.5, 0, h/2])rotate([90,0,0]) cylinder(d=4, h=10, center=true);
-
   translate([(top)/2+1.5, 0.4, h/2]) rotate([90, 0, 0]) cylinder(d1=4, d2=8, h=3, center=false);
 }

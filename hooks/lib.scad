@@ -18,15 +18,16 @@ module round1_8(radius, width) {
 }
 
 module flat_hanger(hookRadius, width, h, gape) {
-  rotate([0, 0, -90]) round1_4(hookRadius, width, h);
+  translate([width/2, 0, 0])
+    rotate([0, 0, -90]) round1_4(hookRadius, width, h);
 
-  translate([hookRadius-width/2+gape/2, width/2-hookRadius, h/2])
-    cube([gape, width, h], center=true);
+  translate([hookRadius, -hookRadius, 0])
+    cube([gape, width, h], center=false);
 
-  translate([gape+hookRadius/2, width/2-hookRadius, 0])
+  translate([hookRadius+gape, width/2-hookRadius, 0])
     rotate([0, 0, 0]) round1_4(hookRadius, width, h);
 
-  translate([gape+1.5*width, 0, 0])
+  translate([2*hookRadius+gape-width/2, 0, 0])
     cylinder(d=width, h=h, center=false);
 
 }
