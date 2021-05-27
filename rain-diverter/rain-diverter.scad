@@ -1,63 +1,10 @@
 use <threadlib/threadlib.scad>
 
-// origin : https://www.thingiverse.com/thing:4323468/files
-module create_external_threaded_part(upper_part=true, thread="M10", turns=1, min_wall_size=1.0, chamfer=true, corrector=0.00) {
-
-  specs = thread_specs(str(thread, "-ext"));
-  P = specs[0]; Rrot = specs[1]; Dsupport = specs[2];
-  section_profile = specs[3];
-  H = (turns+1)*P;
-  TH = section_profile[3][0];
-  Douter=(Rrot+TH-corrector)*2;
-
-  //Set chamfer size to thread height if ther is a chamfer to be created
-  chamfer_size = chamfer ? TH : 0;
-
-  difference()
-    {
-      difference()
-        {
-          //Create core and resized thread
-          union()
-          {
-            cylinder(h=H, r=Dsupport/2); //core
-            translate([0,0,P*0.5])
-              resize([Douter, Douter, 0])
-              thread(str(thread,"-ext"),turns=turns);
-          }
-
-          //Subtract chamfer
-          if (upper_part){
-            translate([0,0,H-chamfer_size*2+0.01])
-              difference(){
-              cylinder(h=chamfer_size*3+0.02, d=Douter+0.02, center=false);
-              cylinder(h=chamfer_size*3+0.02, r1=Dsupport/2+chamfer_size, r2=Dsupport/2-chamfer_size*2, center=false);
-            }
-          }
-          else{
-            translate([0,0,-0.01])
-              difference(){
-              cylinder(h=chamfer_size*3+0.02, d=Douter+2, center=false);
-              cylinder(h=chamfer_size*3+0.02, r1=Dsupport/2-chamfer_size*2, r2=Dsupport/2+chamfer_size, center=false);
-            }
-          }
-        }
-      //Subtract inner channel
-      translate([0,0,-0.01]) cylinder(h=H+0.02, r=(Dsupport/2-min_wall_size)*fudge);
-    }
-}
-
 $fn=120;
 h=50;
 width=4;
 
-/* imported block */
-//correction factor for circle subtraction to avoid undersized holes
-fudge = 1/cos(180/$fn);
-
-/* end of import */
 bottomJunctionHeight=10;
-
 
 module escape() {
   // Thread peak radius reduction in mm (adjust this to your printer precision)
@@ -74,15 +21,6 @@ module escape() {
 
 
   diam = specs[2];
-  translate([0,0,diam/2])
-    rotate([0,90,0])
-    create_external_threaded_part(
-                                  upper_part=true,
-                                  thread=upper_thread,
-                                  turns=upper_turns,
-                                  min_wall_size=upper_wall,
-                                  chamfer=upper_chamfer,
-                                  corrector=corrector);
 
   thickness = 3;
   length=10;
@@ -116,7 +54,6 @@ module mainPipe(pipeInnerDiameter){
     translate([0,0,h/2]) cylinder(d1=outerBottomWidth-width, d2=innerTopWidth, h=h+2, center=true);
 
   }
-  /* escape(); */
 }
 
 module radialGutter(outerDiameter, gutterWidth) {

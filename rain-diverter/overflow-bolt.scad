@@ -18,8 +18,8 @@ translate([0, 0, -P / 2 -1])
     cylinder(h=H+10, d=Dsupport-3, $fn=120); /*  */
 }
 
-translate([0, 0, -P / 2 ])
-difference() {
-  cylinder(h=5, d=28, $fn=6, center=true);
-  cylinder(h=6, d=Dsupport-3, $fn=120, center=true); /*  */
-}
+/* translate([0, 0, -P / 2 ]) */
+/* difference() { */
+/*   cylinder(h=5, d=28, $fn=6, center=true); */
+/*   cylinder(h=6, d=Dsupport-3, $fn=120, center=true); /\*  *\/ */
+/* } */
